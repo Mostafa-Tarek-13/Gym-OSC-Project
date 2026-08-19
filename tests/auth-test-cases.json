@@ -1,0 +1,128 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "notes": [
+    "Start the server with npm run dev before running these cases.",
+    "Run the register case before duplicate-registration and sign-in cases.",
+    "Replace the email with a new address when testing registration again."
+  ],
+  "testCases": [
+    {
+      "name": "Health check",
+      "method": "GET",
+      "path": "/health",
+      "headers": {},
+      "body": null,
+      "expectedStatus": 200,
+      "expectedResponse": {
+        "status": "ok"
+      }
+    },
+    {
+      "name": "Register a new member",
+      "method": "POST",
+      "path": "/auth/register",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "fullName": "Test User",
+        "email": "test@example.com",
+        "password": "secret123",
+        "role": "member"
+      },
+      "expectedStatus": 201,
+      "expectedResponseFields": [
+        "user.id",
+        "user.fullName",
+        "user.email",
+        "user.role"
+      ],
+      "mustNotReturnFields": [
+        "user.password"
+      ]
+    },
+    {
+      "name": "Reject duplicate email",
+      "method": "POST",
+      "path": "/auth/register",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "fullName": "Another User",
+        "email": "test@example.com",
+        "password": "different123",
+        "role": "member"
+      },
+      "expectedStatus": 409,
+      "expectedResponse": {
+        "message": "Email is already registered"
+      }
+    },
+    {
+      "name": "Sign in with valid credentials",
+      "method": "POST",
+      "path": "/auth/signin",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "test@example.com",
+        "password": "secret123"
+      },
+      "expectedStatus": 200,
+      "expectedResponseFields": [
+        "userId",
+        "role",
+        "token"
+      ],
+      "jwtPayloadMustContain": [
+        "userId",
+        "role"
+      ]
+    },
+    {
+      "name": "Reject invalid password",
+      "method": "POST",
+      "path": "/auth/signin",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "test@example.com",
+        "password": "wrong-password"
+      },
+      "expectedStatus": 401,
+      "expectedResponse": {
+        "message": "Invalid email or password"
+      }
+    },
+    {
+      "name": "Reject invalid registration input",
+      "method": "POST",
+      "path": "/auth/register",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "fullName": "",
+        "email": "invalid-email",
+        "password": "123"
+      },
+      "expectedStatus": 400
+    },
+    {
+      "name": "Reject invalid sign-in input",
+      "method": "POST",
+      "path": "/auth/signin",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "invalid-email",
+        "password": ""
+      },
+      "expectedStatus": 400
+    }
+  ]
+}

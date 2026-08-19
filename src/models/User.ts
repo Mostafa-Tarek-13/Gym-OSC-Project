@@ -4,7 +4,7 @@ export type UserRole = 'trainer' | 'member';
 
 export interface IUser extends Document {
 	fullName: string;
-	name: string;
+	email: string;
 	password: string;
 	role: UserRole;
 }
@@ -16,10 +16,11 @@ const userSchema = new Schema<IUser>(
 			required: true,
 			trim: true,
 		},
-		name: {
+		email: {
 			type: String,
 			required: true,
 			trim: true,
+			lowercase: true,
 			unique: true,
 		},
 		password: {
