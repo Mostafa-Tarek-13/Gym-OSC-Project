@@ -1,4 +1,4 @@
-git 
+
 import {Request, Response } from "express";
 import { AuthRequest } from "../middleware/auth";
 import { ClassSearchFilters, ClassService } from '../services/classService';
