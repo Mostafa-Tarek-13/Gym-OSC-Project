@@ -1,1 +1,1 @@
-// Swagger docs entry will be added here.
+export { swaggerSpec } from '../config/swagger';
