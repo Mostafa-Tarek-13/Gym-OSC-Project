@@ -64,3 +64,10 @@ export function roleMiddleware(requiredRole: UserRole) {
 		return next();
 	};
 }
+
+export interface AuthRequest extends Request {
+    user?: {
+        id: string;
+        role: UserRole;
+    };
+}
