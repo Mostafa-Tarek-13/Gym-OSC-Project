@@ -34,3 +34,5 @@ This repository contains the scaffold for a Node.js, TypeScript, and Express API
 ## Notes
 
 This is a scaffold only. Application logic will be added in subsequent development stages.
+## deployment link 
+serene-abundance-production-7bdc.up.railway.app
